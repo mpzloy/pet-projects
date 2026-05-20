@@ -45,6 +45,5 @@ export function visibleTransactions(data: ParseResult<any>) {
     } as Transaction;
   }).filter((item): item is Transaction => item !== null)
 
-
   return {errorsRows, transactions}
 }

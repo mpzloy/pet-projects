@@ -2,7 +2,7 @@ import {z} from 'zod'
 
 export const csvSchema = z.object({
   date: z.string().min(1, 'date is required'),
-  counterparty: z.string().min(1, 'counterparty is required'),
+  counterparty: z.string().min(2, 'counterparty is required'),
   description: z.string().min(1, 'description is required'),
   amount: z.coerce
     .number({message: 'amount must be a number'})

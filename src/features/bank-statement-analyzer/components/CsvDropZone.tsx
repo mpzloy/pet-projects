@@ -26,7 +26,7 @@ function CsvDropZone({onLoadFile}: LoadCsvFile) {
   })
 
   return (
-    <Card className=" border-dashed border-2 rounded-2xl ring-0">
+    <Card className=" border-dashed border-2 rounded-2xl ring-0 mb-4">
       <CardContent className="flex justify-center items-center h-48 cursor-pointer" {...getRootProps()}>
         <input {...getInputProps()} accept="text/csv"/>
         {
