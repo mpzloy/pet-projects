@@ -29,3 +29,9 @@ export type FilterType = 'all' | 'income' | 'expense'
 export type LoadCsvFile = {
   onLoadFile: (file: File) => void
 }
+
+export type Result = {
+  incomeTotal: number
+  expenseTotal: number
+  netResult: number
+}

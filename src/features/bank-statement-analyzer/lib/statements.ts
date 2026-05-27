@@ -36,7 +36,7 @@ export function visibleTransactions(data: ParseResult<any>) {
     const amount = Number(valid.amount);
 
     return {
-      id: `${new Date()} - ${Math.random()}`,
+      id: `${Date.now()}-${Math.floor(Math.random() * 100000)}`,
       date: valid.date,
       counterparty: valid.counterparty,
       description: valid.description,
@@ -45,5 +45,66 @@ export function visibleTransactions(data: ParseResult<any>) {
     } as Transaction;
   }).filter((item): item is Transaction => item !== null)
 
-  return {errorsRows, transactions}
+  return data.data.reduce<{
+    transactions: Transaction[]
+    errorsRows: ErrorTransaction[]
+  }>((acc, item, inx: number) => {
+    const parsed = csvSchema.safeParse(item)
+
+    if (!parsed.success) {
+      acc.errorsRows.push({
+        index: inx + 1,
+        error: parsed.error.issues
+          .map(er => `${er.path.join('.')}: ${er.message}`)
+          .join(', ')
+      })
+
+      return acc
+    }
+
+    const valid = parsed.data
+    const amount = Number(valid.amount)
+
+    const transaction: Transaction = {
+      id: `${Date.now()}-${Math.random()}`,
+      date: valid.date,
+      counterparty: valid.counterparty,
+      description: valid.description,
+      amount,
+      type: amount > 0 ? 'income' : 'expense'
+    }
+
+    acc.transactions.push(transaction)
+
+    return acc
+  }, {
+    transactions: [],
+    errorsRows: []
+  })
+}
+
+export function calculateTotals(transactions: Transaction[]) {
+  const totals = transactions.reduce<{
+    incomeTotal: number
+    expenseTotal: number
+    netResult: number
+  }>((acc, item) => {
+
+    if (item.type === "income") {
+      acc.incomeTotal += item.amount
+    } else {
+      acc.expenseTotal += item.amount
+    }
+
+    acc.netResult += item.amount
+
+    return acc
+  }, {
+    incomeTotal: 0,
+    expenseTotal: 0,
+    netResult: 0,
+  })
+
+  totals.netResult = Number((totals.netResult).toFixed(2))
+  return totals
 }

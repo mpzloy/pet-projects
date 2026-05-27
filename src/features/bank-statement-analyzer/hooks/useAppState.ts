@@ -1,5 +1,5 @@
 import {useImmerReducer} from "use-immer";
-import {Transaction, FilterType, ErrorTransaction} from "@/features/types/types";
+import {Transaction, FilterType, ErrorTransaction, Result} from "@/features/types/types";
 
 type AppState = {
   transactions: Transaction[];
@@ -7,6 +7,7 @@ type AppState = {
   errorsTransactions: ErrorTransaction[];
   filterTransactions: FilterType;
   searchTransactions: string;
+  result: Result;
 }
 
 type Action =
@@ -14,6 +15,7 @@ type Action =
   | { type: 'SET_VISIBLE_TRANSACTIONS'; payload: Transaction[] }
   | { type: 'SET_TRANSACTIONS_ERRORS'; payload: ErrorTransaction }
   | { type: 'CLEAR_TRANSACTIONS_ERRORS'; }
+  | { type: 'SET_RESULT'; payload: Partial<Result> }
 
 export default function useAppState() {
 
@@ -22,7 +24,12 @@ export default function useAppState() {
     visibleTransactions: [],
     errorsTransactions: [],
     filterTransactions: 'all',
-    searchTransactions: ''
+    searchTransactions: '',
+    result: {
+      incomeTotal: 0,
+      expenseTotal: 0,
+      netResult: 0
+    }
   }
 
   const reducer = (draft: AppState, action: Action) => {
@@ -42,10 +49,14 @@ export default function useAppState() {
       case 'CLEAR_TRANSACTIONS_ERRORS':
         draft.errorsTransactions = []
         return
+
+      case 'SET_RESULT':
+        Object.assign(draft.result, action.payload)
+        return
     }
   }
 
-  const [state, dispatch] = useImmerReducer(reducer, initialState);
+  const [state, dispatch] = useImmerReducer<AppState, Action>(reducer, initialState);
 
   return {state, dispatch};
 }

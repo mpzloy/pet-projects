@@ -14,7 +14,10 @@ import {
 } from "@/shared/ui/table"
 import {Badge} from "@/shared/ui/badge"
 
-export default function TransactionsTable({currentTransactions}: { currentTransactions: Transaction[] }) {
+export default function TransactionsTable({currentTransactions, result}: {
+  currentTransactions: Transaction[],
+  result: number
+}) {
 
   if (currentTransactions.length === 0) {
     return (
@@ -53,7 +56,7 @@ export default function TransactionsTable({currentTransactions}: { currentTransa
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Загалом:</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
+              <TableCell className="text-right">{result}</TableCell>
               <TableCell className=""></TableCell>
             </TableRow>
           </TableFooter>
