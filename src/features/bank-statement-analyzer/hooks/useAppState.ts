@@ -16,6 +16,7 @@ type Action =
   | { type: 'SET_TRANSACTIONS_ERRORS'; payload: ErrorTransaction }
   | { type: 'CLEAR_TRANSACTIONS_ERRORS'; }
   | { type: 'SET_RESULT'; payload: Partial<Result> }
+  | { type: 'SET_FILTER'; value: FilterType }
 
 export default function useAppState() {
 
@@ -53,6 +54,9 @@ export default function useAppState() {
       case 'SET_RESULT':
         Object.assign(draft.result, action.payload)
         return
+
+      case 'SET_FILTER':
+        draft.filterTransactions = action.value
     }
   }
 

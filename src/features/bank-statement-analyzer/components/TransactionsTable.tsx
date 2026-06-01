@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import {Transaction} from "@/features/types/types";
+import {FilterType, Result, Transaction} from "@/features/types/types";
 import {Card, CardContent} from "@/shared/ui/card";
 import {
   Table,
@@ -14,10 +14,14 @@ import {
 } from "@/shared/ui/table"
 import {Badge} from "@/shared/ui/badge"
 
-export default function TransactionsTable({currentTransactions, result}: {
+export default function TransactionsTable({currentTransactions, result, filterData}: {
   currentTransactions: Transaction[],
-  result: number
+  result: Result,
+  filterData: FilterType
 }) {
+
+  const total = filterData === 'all' ? result.netResult : (filterData === 'income' ? result.incomeTotal : result.expenseTotal)
+  console.log(total, filterData)
 
   if (currentTransactions.length === 0) {
     return (
@@ -46,7 +50,8 @@ export default function TransactionsTable({currentTransactions, result}: {
                 <TableCell>{trx.description}</TableCell>
                 <TableCell className="text-right">{trx.amount}</TableCell>
                 <TableCell className="text-center">
-                  <Badge className={`rounded-full ${trx.type === 'income' ? 'bg-green-700/80' : 'bg-red-500/80'}`}>
+                  <Badge
+                    className={`rounded-full dark:text-white ${trx.type === 'income' ? 'bg-green-700/80' : 'bg-red-500/80'}`}>
                     {trx.type === 'income' ? 'Дохід' : 'Витрати'}
                   </Badge>
                 </TableCell>
@@ -56,7 +61,7 @@ export default function TransactionsTable({currentTransactions, result}: {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Загалом:</TableCell>
-              <TableCell className="text-right">{result}</TableCell>
+              <TableCell className="text-right">{total}</TableCell>
               <TableCell className=""></TableCell>
             </TableRow>
           </TableFooter>

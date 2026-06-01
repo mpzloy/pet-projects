@@ -1,6 +1,6 @@
 import Papa from "papaparse"
 import type {ParseResult} from "papaparse";
-import {Transaction, transactionsSchema, ErrorTransaction, csvSchema} from "@/features/types/types";
+import {Transaction, transactionsSchema, ErrorTransaction, csvSchema, FilterType} from "@/features/types/types";
 
 export function LoadCsv(file: File): Promise<ParseResult<any>> {
   return new Promise((resolve, reject) => {
@@ -107,4 +107,10 @@ export function calculateTotals(transactions: Transaction[]) {
 
   totals.netResult = Number((totals.netResult).toFixed(2))
   return totals
+}
+
+export function filterTransactions(transactions: Transaction[], f: FilterType) {
+  if (f === 'all') return transactions
+
+  return transactions.filter((item) => item.type === f)
 }
