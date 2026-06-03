@@ -5,8 +5,7 @@ import TransactionsTable from "@/features/bank-statement-analyzer/components/Tra
 import ErrorTransactionsData from "@/features/bank-statement-analyzer/components/ErrorsTarnsactionsData";
 import {
   calculateTotals,
-  filterTransactions,
-  LoadCsv,
+  LoadCsv, queryTransactionsSinglePass,
   visibleTransactions
 } from "@/features/bank-statement-analyzer/lib/statements";
 import useAppState from "@/features/bank-statement-analyzer/hooks/useAppState";
@@ -33,12 +32,15 @@ export default function BankStatementAnalyzerPage() {
     t.errorsRows.forEach(item => dispatch({type: "SET_TRANSACTIONS_ERRORS", payload: item}))
   }
 
-  const filterTransactionsData = (filter: FilterType) => {
-    console.log("filter value ->", filter)
+  const queryTransactionsSinglePassData = (st: string, filter: FilterType) => {
 
+    dispatch({type: "SET_SEARCH", value: st})
     dispatch({type: "SET_FILTER", value: filter})
 
-    dispatch({type: "SET_VISIBLE_TRANSACTIONS", payload: filterTransactions(state.transactions, filter)})
+    const visible = queryTransactionsSinglePass(state.transactions, filter, st)
+
+    dispatch({type: "SET_VISIBLE_TRANSACTIONS", payload: visible})
+    dispatch({type: "SET_RESULT", payload: calculateTotals(visible)})
   }
 
   return (
@@ -56,7 +58,7 @@ export default function BankStatementAnalyzerPage() {
         <SummaryCard title="Кількість транзакцій" total={state.transactions.length}/>
       </div>
 
-      <FilterTransactionsLine transactions={state.visibleTransactions} filterTransactions={filterTransactionsData}/>
+      <FilterTransactionsLine search={state.searchTransactions} filter={state.filterTransactions} queryFilter={queryTransactionsSinglePassData}/>
 
       <TransactionsTable currentTransactions={state.visibleTransactions} result={state.result}
                          filterData={state.filterTransactions}/>

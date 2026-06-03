@@ -17,6 +17,7 @@ type Action =
   | { type: 'CLEAR_TRANSACTIONS_ERRORS'; }
   | { type: 'SET_RESULT'; payload: Partial<Result> }
   | { type: 'SET_FILTER'; value: FilterType }
+  | { type: 'SET_SEARCH'; value: string }
 
 export default function useAppState() {
 
@@ -57,6 +58,14 @@ export default function useAppState() {
 
       case 'SET_FILTER':
         draft.filterTransactions = action.value
+        return
+
+      case 'SET_SEARCH' :
+        draft.searchTransactions = action.value
+        return
+
+       default:
+         return
     }
   }
 

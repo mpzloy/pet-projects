@@ -105,12 +105,26 @@ export function calculateTotals(transactions: Transaction[]) {
     netResult: 0,
   })
 
+  totals.incomeTotal = Number((totals.incomeTotal).toFixed(2))
+  totals.expenseTotal = Number((totals.expenseTotal).toFixed(2))
   totals.netResult = Number((totals.netResult).toFixed(2))
   return totals
 }
 
-export function filterTransactions(transactions: Transaction[], f: FilterType) {
-  if (f === 'all') return transactions
+export function queryTransactionsSinglePass(transactions: Transaction[], f: FilterType, s: string) {
+  const searchTerm = (s || '').toLowerCase().trim()
 
-  return transactions.filter((item) => item.type === f)
+  if (!searchTerm) {
+    return transactions.filter(item => f === 'all' || item.type === f)
+  }
+
+  return transactions.filter((item) => {
+
+    if (f !== 'all' && item.type !== f) return false
+
+    const counterparty = (item.counterparty || '').toLowerCase()
+    const description = (item.description || '').toLowerCase()
+
+    return counterparty.includes(searchTerm) || description.includes(searchTerm)
+  })
 }

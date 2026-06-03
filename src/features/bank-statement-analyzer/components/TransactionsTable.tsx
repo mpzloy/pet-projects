@@ -21,7 +21,6 @@ export default function TransactionsTable({currentTransactions, result, filterDa
 }) {
 
   const total = filterData === 'all' ? result.netResult : (filterData === 'income' ? result.incomeTotal : result.expenseTotal)
-  console.log(total, filterData)
 
   if (currentTransactions.length === 0) {
     return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FilterType, Transaction} from "@/features/types/types";
 import {SearchIcon} from "lucide-react"
 import {
@@ -14,25 +14,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select"
+import useAppState from "@/features/bank-statement-analyzer/hooks/useAppState";
 
-function FilterTransactionsLine({transactions, filterTransactions}: { transactions: Transaction[], filterTransactions:  (filter: FilterType) => void }) {
+function FilterTransactionsLine({search, filter, queryFilter}: {
+  search: string,
+  filter: FilterType,
+  queryFilter: (st: string, filter: FilterType) => void,
+}) {
 
-  const onFilter = (opt: FilterType) => {
-    filterTransactions(opt)
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    queryFilter(e.target.value, filter)
   }
 
-  if (!transactions || !transactions.length) return null
+  const onFilter = (opt: FilterType) => {
+    queryFilter(search, opt)
+  }
 
   return (
     <div className="flex items-center gap-2 mb-4">
       <InputGroup className="rounded-md">
-        <InputGroupInput placeholder="Пошук..."/>
+        <InputGroupInput placeholder="Пошук..." value={search} onChange={onSearch}/>
         <InputGroupAddon>
           <SearchIcon/>
         </InputGroupAddon>
       </InputGroup>
 
-      <Select onValueChange={onFilter}>
+      <Select value={filter} onValueChange={onFilter}>
         <SelectTrigger className="w-48 rounded-md">
           <SelectValue placeholder="Операції"/>
         </SelectTrigger>
