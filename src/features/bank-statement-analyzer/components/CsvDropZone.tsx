@@ -3,7 +3,7 @@
 import React, {useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import {Card, CardContent, CardFooter} from "@/shared/ui/card";
-import {LoadCsvFile} from "@/features/types/types";
+import {LoadCsvFile} from "@/features/bank-statement-analyzer/types/types";
 
 function CsvDropZone({onLoadFile}: LoadCsvFile) {
   const [wrongFileType, setWrongFileType] = useState<boolean>(false)

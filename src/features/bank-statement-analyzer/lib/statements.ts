@@ -1,6 +1,6 @@
 import Papa from "papaparse"
 import type {ParseResult} from "papaparse";
-import {Transaction, transactionsSchema, ErrorTransaction, csvSchema, FilterType} from "@/features/types/types";
+import {Transaction, ErrorTransaction, csvSchema, FilterType} from "@/features/bank-statement-analyzer/types/types";
 
 export function LoadCsv(file: File): Promise<ParseResult<any>> {
   return new Promise((resolve, reject) => {

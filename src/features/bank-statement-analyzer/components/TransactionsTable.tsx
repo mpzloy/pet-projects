@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import {FilterType, Result, Transaction} from "@/features/types/types";
+import {FilterType, Result, Transaction} from "@/features/bank-statement-analyzer/types/types";
 import {Card, CardContent} from "@/shared/ui/card";
 import {
   Table,

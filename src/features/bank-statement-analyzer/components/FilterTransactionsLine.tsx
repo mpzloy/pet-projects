@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {FilterType, Transaction} from "@/features/types/types";
+import React from 'react';
+import {FilterType} from "@/features/bank-statement-analyzer/types/types";
 import {SearchIcon} from "lucide-react"
 import {
   InputGroup,
@@ -14,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select"
-import useAppState from "@/features/bank-statement-analyzer/hooks/useAppState";
 
 function FilterTransactionsLine({search, filter, queryFilter}: {
   search: string,

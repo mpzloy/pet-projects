@@ -1,6 +1,6 @@
 import React from 'react';
 import {ChevronDownIcon} from "lucide-react"
-import {ErrorTransaction} from "@/features/types/types";
+import {ErrorTransaction} from "@/features/bank-statement-analyzer/types/types";
 import {Card, CardContent} from "@/shared/ui/card";
 import {Button} from "@/shared/ui/button";
 import {

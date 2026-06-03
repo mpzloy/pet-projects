@@ -11,7 +11,7 @@ import {
 import useAppState from "@/features/bank-statement-analyzer/hooks/useAppState";
 import SummaryCard from "@/features/bank-statement-analyzer/components/SummaryCard";
 import FilterTransactionsLine from "@/features/bank-statement-analyzer/components/FilterTransactionsLine";
-import {FilterType} from "@/features/types/types";
+import {FilterType} from "@/features/bank-statement-analyzer/types/types";
 
 export default function BankStatementAnalyzerPage() {
   const {state, dispatch} = useAppState()

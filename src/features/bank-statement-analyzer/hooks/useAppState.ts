@@ -1,5 +1,5 @@
 import {useImmerReducer} from "use-immer";
-import {Transaction, FilterType, ErrorTransaction, Result} from "@/features/types/types";
+import {Transaction, FilterType, ErrorTransaction, Result} from "@/features/bank-statement-analyzer/types/types";
 
 type AppState = {
   transactions: Transaction[];
