@@ -1,57 +1,40 @@
-'use client'
+"use client"
 
-import React, {useEffect, useState} from 'react';
-import {Button} from "@/shared/ui/button"
+import React, { useEffect, useState } from 'react';
+import { Button } from "@/shared/ui/button";
+
+type Theme = 'light' | 'dark';
+const THEME_STORAGE_KEY = 'theme';
+
+function getSystemTheme(): Theme {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
 export default function ThemeToggle() {
-
-  const [isDark, setIsDark] = useState<boolean>(false)
+  const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    const initialTheme = saved ?? getSystemTheme();
 
-    if (saved) {
-      setIsDark(saved === 'dark');
-    } else {
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(systemPrefersDark);
-    }
+    setTheme(initialTheme);
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+    document.documentElement.dataset.theme = initialTheme;
   }, []);
 
-  useEffect(() => {
-    const rootEl = document.documentElement
-
-    if (isDark) {
-      rootEl.classList.add("dark")
-      localStorage.setItem("theme", "dark")
-    } else {
-      rootEl.classList.remove("dark")
-      localStorage.setItem("theme", "light")
-    }
-
-  }, [isDark]);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)")
-
-    const handler = (e: MediaQueryListEvent) => {
-      const saved = localStorage.getItem("theme");
-
-      if (!saved) {
-        setIsDark(e.matches)
-      }
-    }
-
-    media.addEventListener("change", handler);
-    return () => media.removeEventListener("change", handler);
-
-  }, [])
-
+  const applyTheme = (nextTheme: Theme) => {
+    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    setTheme(nextTheme);
+  };
 
   return (
-    <Button onClick={() => setIsDark(prev => !prev)}
-            className="hover:bg-muted bg-transparent cursor-pointer dark:bg-white/20 p-2 rounded-full flex justify-center items-center ml-auto dark:text-white text-black">
-      {isDark ? '🌙 Dark' : '☀️ Light'}
+    <Button
+      onClick={() => applyTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="hover:bg-muted bg-transparent cursor-pointer dark:bg-white/20 p-2 rounded-full flex justify-center items-center ml-auto dark:text-white text-black"
+    >
+      {theme === 'dark' ? '🌙' : '☀️'}
     </Button>
   );
 }

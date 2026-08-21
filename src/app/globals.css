@@ -134,3 +134,37 @@
 .wrapper {
   @apply max-w-7xl w-full mx-auto px-4 md:px-12;
 }
+
+/*TODO: remove transition */
+/*@view-transition {*/
+/*  navigation: auto;*/
+/*}*/
+
+/*::view-transition-group(page-content) {*/
+/*  animation-duration: 1s;*/
+/*  animation-timing-function: ease;*/
+/*}*/
+
+/*::view-transition-old(page-content) {*/
+/*  animation-name: slide-out;*/
+/*}*/
+
+/*::view-transition-new(page-content) {*/
+/*  animation-name: slide-in;*/
+/*}*/
+
+/*main {*/
+/*  view-transition-name: page-content;*/
+/*}*/
+
+/*@keyframes slide-out {*/
+/*  to {*/
+/*    transform: translateX(-100vw);*/
+/*  }*/
+/*}*/
+
+/*@keyframes slide-in {*/
+/*  from {*/
+/*    transform: translateX(100vw);*/
+/*  }*/
+/*}*/

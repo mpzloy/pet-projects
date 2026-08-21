@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, JetBrains_Mono } from "next/font/google";
+import type {Metadata} from "next";
+import {Geist, Geist_Mono, Inter, JetBrains_Mono} from "next/font/google";
 import "./globals.css";
-import { cn } from "@/shared/utils";
+import {cn} from "@/shared/utils";
 
-const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
+const jetbrainsMono = JetBrains_Mono({subsets: ['latin'], variable: '--font-mono'});
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({subsets: ['latin'], variable: '--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,16 +23,32 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const themeInitScript = `(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    var theme = saved ? saved : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+  } catch (e) {}
+})();`
+
   return (
     <html
-      lang="en"
+      lang="uk"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, inter.variable, "font-mono", jetbrainsMono.variable)}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <head>
+      <script dangerouslySetInnerHTML={{__html: themeInitScript}}/>
+    </head>
+    <body className="min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto]">
+    {children}
+    </body>
     </html>
   );
 }
