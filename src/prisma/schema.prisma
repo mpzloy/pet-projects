@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
+  position     String
+  startAt      DateTime
+  endAt        DateTime?
+  description  String?
+  technologies Technology[] @relation("CompanyTechnologies")
+  projects     Project[]    @relation("CompanyProjects")
+}
+
+model Technology {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  company  Company[] @relation("CompanyTechnologies")
+  projects Project[] @relation("ProjectTechnologies")
+}
+
+model Project {
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
+  description  String?
+  companyId    Int
+  company      Company      @relation("CompanyProjects", fields: [companyId], references: [id])
+  technologies Technology[] @relation("ProjectTechnologies")
+  image        String
+}

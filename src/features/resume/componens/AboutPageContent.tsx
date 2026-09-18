@@ -10,8 +10,9 @@ import styles from "@/features/resume/style.module.scss";
 import Experience from "@/features/resume/componens/Experience";
 import {Button} from "@/shared/ui/button";
 
-function AboutPageContent() {
+import type {ExperienceType} from "@/features/resume/types/types";
 
+function AboutPageContent({data}: { data: ExperienceType[] }) {
   const handleScrollToExperience = (id: string) => {
 
     const element = document.getElementById(id);
@@ -25,26 +26,28 @@ function AboutPageContent() {
     <Page mainClass={` ${styles.about}`}>
       <Wrapper>
         <div className="w-full">
-          <h1>Про мене</h1>
+          <h1 className="text-4xl my-8">Про мене</h1>
           <p>Опис про мене...</p>
-
-          <nav className="flex items-center justify-center gap-4 mb-8 sticky top-0 backdrop-blur-xl py-2 z-10">
-            {resumeData.map((item, index) => {
-              const id = item.company.toLowerCase()
-
-              return (
-                <Button key={id} type="button" onClick={() => handleScrollToExperience(id)}>
-                  {item.company}
-                </Button>
-              )
-            })}
-          </nav>
-
-          {resumeData.map(item => {
-            const id = item.company.toLowerCase()
-
+        </div>
+      </Wrapper>
+      <nav className="sticky top-0 backdrop-blur-xl py-2 z-10 mb-8">
+        <Wrapper wrapperClass="flex items-center justify-center gap-4">
+          {data.map((item: ExperienceType) => {
+            const id = `company-${item.id}`;
             return (
-              <Experience key={id} {...item}/>
+              <Button key={item.id} type="button" onClick={() => handleScrollToExperience(id)}>
+                {item.name}
+              </Button>
+            )
+          })}
+        </Wrapper>
+      </nav>
+
+      <Wrapper>
+        <div className="w-full">
+          {data && data.map((item: ExperienceType, i: number) => {
+            return (
+              <Experience key={item.id} {...item}/>
             )
           })}
         </div>

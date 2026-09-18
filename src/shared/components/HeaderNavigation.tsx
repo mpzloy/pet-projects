@@ -10,7 +10,7 @@ import {headerNavigation} from "@/shared/config/navigation";
 
 function HeaderNavigation() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="max-w-full justify-start">
       <NavigationMenuList className="flex gap-4">
         {headerNavigation.map((item) => (
           <NavigationMenuItem key={item.href}>

@@ -32,7 +32,7 @@ export default function ThemeToggle() {
   return (
     <Button
       onClick={() => applyTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="hover:bg-muted bg-transparent cursor-pointer dark:bg-white/20 p-2 rounded-full flex justify-center items-center ml-auto dark:text-white text-black"
+      className="hover:bg-muted bg-transparent cursor-pointer dark:bg-white/20 p-2 rounded-full flex justify-center items-center dark:text-white text-black"
     >
       {theme === 'dark' ? '🌙' : '☀️'}
     </Button>

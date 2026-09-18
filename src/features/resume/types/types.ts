@@ -1,12 +1,22 @@
+export interface ProjectType {
+  id: number;
+  image: string;
+  technologies: TechnologyType[];
+  description?: string | null;
+  name: string;
+  companyId: number;
+}
+
+export interface TechnologyType {
+  id: number;
+  name: string;
+}
+
 export interface ExperienceType {
-  company: string;
+  id: number;
+  name: string;
   position: string;
-  description: string;
-  technologies: string[];
-  projects?: {
-    id: string;
-    imageSrc: string;
-    technologies: string;
-    description?: string | undefined;
-  }[];
+  description?: string | null;
+  technologies: TechnologyType[];
+  projects?: ProjectType[];
 }
